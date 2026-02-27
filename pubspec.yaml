@@ -11,8 +11,12 @@ dependencies:
   flutter:
     sdk: flutter
 
+  date:
+    git: https://github.com/thumbert/date.git
   pointer_interceptor: ^0.10.1+2
   signals_flutter: ^6.3.0
+  timezone: '>=0.9.2 <1.0.0'
+
 
 dev_dependencies:
   flutter_test:
