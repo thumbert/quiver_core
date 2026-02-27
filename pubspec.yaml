@@ -1,8 +1,8 @@
 name: quiver_core
-description: "An opinionated set of widgets using signals for state management."
+description: An opinionated set of widgets using signals for state management.
 publish_to: 'none' 
 
-version: 1.0.0+1
+version: 0.2.0
 
 environment:
   sdk: ^3.10.0
