@@ -4,5 +4,8 @@ To do:
 - Make better ticks, especially for DateTimes
 - Have ticks by default
 - Make legend!
+- Implement data labels hover
+
+
 
 
