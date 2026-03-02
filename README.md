@@ -8,6 +8,7 @@ Test Flutter Wasm implementation
 - [Flutter Wasm](https://docs.flutter.dev/platform-integration/web/wasm)
 
 ```bash
-flutter run -d chrome --wasm
+flutter run -d chrome --wasm --release
+flutter run -d chrome -t lib/big_data.dart --wasm
 ```
 

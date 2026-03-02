@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:graphic/graphic.dart';
@@ -45,6 +46,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Offset? _dragStart;
   List<Map<String, Object>> _filteredData = [];
   List<double>? _currentSelectionNormalized;
+  Random random = Random();
+
 
   @override
   void initState() {
@@ -169,7 +172,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    // const Text('Selection with search'),
                     Row(
                       children: [
                         Container(
@@ -254,6 +256,11 @@ class _MyHomePageState extends State<MyHomePage> {
                                               value: lite.Defaults.colors[0],
                                             ),
                                           ),
+                                          LineMark(
+                                            color: ColorEncode(
+                                              value: lite.Defaults.colors[1],
+                                            ),
+                                          ),
                                         ],
                                         coord: RectCoord(
                                           horizontalRange: [0, 1],
@@ -302,6 +309,149 @@ class _MyHomePageState extends State<MyHomePage> {
                                           followPointer: [false, false],
                                         ),
                                         gestureStream: _gestureController,
+                                        annotations: [
+                                          CustomAnnotation(
+                                            renderer: (_, size) => [
+                                              CircleElement(
+                                                center: Offset(25, size.height + 30),
+                                                radius: 10,
+                                                style: PaintStyle(
+                                                  fillColor:
+                                                      lite.Defaults.colors[0],
+                                                ),
+                                              ),
+                                            ],
+                                            anchor: (p0) =>
+                                                const Offset(100, 0),
+                                          ),
+                                          TagAnnotation(
+                                            label: Label(
+                                              'Email',
+                                              LabelStyle(
+                                                textStyle: lite.Defaults.textStyle.copyWith(fontSize: 16),
+                                                align: Alignment.centerRight,
+                                              ),
+                                            ),
+                                            anchor: (size) =>
+                                                Offset(44, size.height + 30),
+                                          ),
+                                          CustomAnnotation(
+                                            renderer: (_, size) => [
+                                              CircleElement(
+                                                center: Offset(
+                                                  25 + size.width / 5,
+                                                  290,
+                                                ),
+                                                radius: 5,
+                                                style: PaintStyle(
+                                                  fillColor:
+                                                      Defaults.colors10[1],
+                                                ),
+                                              ),
+                                            ],
+                                            anchor: (p0) => const Offset(0, 0),
+                                          ),
+                                          TagAnnotation(
+                                            label: Label(
+                                              'Affiliate',
+                                              LabelStyle(
+                                                textStyle: Defaults.textStyle,
+                                                align: Alignment.centerRight,
+                                              ),
+                                            ),
+                                            anchor: (size) => Offset(
+                                              34 + size.width / 5,
+                                              290,
+                                            ),
+                                          ),
+                                          CustomAnnotation(
+                                            renderer: (_, size) => [
+                                              CircleElement(
+                                                center: Offset(
+                                                  25 + size.width / 5 * 2,
+                                                  290,
+                                                ),
+                                                radius: 5,
+                                                style: PaintStyle(
+                                                  fillColor:
+                                                      Defaults.colors10[2],
+                                                ),
+                                              ),
+                                            ],
+                                            anchor: (p0) => const Offset(0, 0),
+                                          ),
+                                          TagAnnotation(
+                                            label: Label(
+                                              'Video',
+                                              LabelStyle(
+                                                textStyle: Defaults.textStyle,
+                                                align: Alignment.centerRight,
+                                              ),
+                                            ),
+                                            anchor: (size) => Offset(
+                                              34 + size.width / 5 * 2,
+                                              290,
+                                            ),
+                                          ),
+                                          CustomAnnotation(
+                                            renderer: (_, size) => [
+                                              CircleElement(
+                                                center: Offset(
+                                                  25 + size.width / 5 * 3,
+                                                  290,
+                                                ),
+                                                radius: 5,
+                                                style: PaintStyle(
+                                                  fillColor:
+                                                      Defaults.colors10[3],
+                                                ),
+                                              ),
+                                            ],
+                                            anchor: (p0) => const Offset(0, 0),
+                                          ),
+                                          TagAnnotation(
+                                            label: Label(
+                                              'Direct',
+                                              LabelStyle(
+                                                textStyle: Defaults.textStyle,
+                                                align: Alignment.centerRight,
+                                              ),
+                                            ),
+                                            anchor: (size) => Offset(
+                                              34 + size.width / 5 * 3,
+                                              290,
+                                            ),
+                                          ),
+                                          CustomAnnotation(
+                                            renderer: (_, size) => [
+                                              CircleElement(
+                                                center: Offset(
+                                                  25 + size.width / 5 * 4,
+                                                  290,
+                                                ),
+                                                radius: 5,
+                                                style: PaintStyle(
+                                                  fillColor:
+                                                      Defaults.colors10[4],
+                                                ),
+                                              ),
+                                            ],
+                                            anchor: (p0) => const Offset(0, 0),
+                                          ),
+                                          TagAnnotation(
+                                            label: Label(
+                                              'Search',
+                                              LabelStyle(
+                                                textStyle: Defaults.textStyle,
+                                                align: Alignment.centerRight,
+                                              ),
+                                            ),
+                                            anchor: (size) => Offset(
+                                              34 + size.width / 5 * 4,
+                                              290,
+                                            ),
+                                          ),
+                                        ],
                                       ),
 
                                       if (_currentSelectionNormalized != null)
