@@ -1,12 +1,1 @@
-export 'defaults.dart';
-export 'lib/display/axis.dart';
-export 'lib/display/colorbar.dart';
-export 'lib/display/enums.dart';
-export 'lib/display/layout.dart';
-export 'lib/display/legend.dart';
-export 'lib/display/margin.dart';
-export 'lib/display/marker.dart';
-export 'lib/display/text_position.dart';
-export 'lib/display/tick.dart';
-export 'lib/display/title.dart';
-export 'lib/display/trace.dart';
+export 'lib/defaults.dart';

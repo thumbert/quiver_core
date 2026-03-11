@@ -59,7 +59,7 @@ EventUpdater<List<double>> _getRangeUpdate(
       print(
         'localMoveStart: ${gesture.localMoveStart}, localPosition: ${gesture.localPosition}',
       );
-      final detail = gesture.details as ScaleEndDetails;
+      // final detail = gesture.details as ScaleEndDetails;
       // return [0.2, 0.4];
       return [0.0, 1.0];
 
