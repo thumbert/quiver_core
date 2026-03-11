@@ -6,34 +6,35 @@ import 'package:http/http.dart' as http;
 import 'package:signals_flutter/signals_flutter.dart';
 import 'package:timezone/timezone.dart';
 
+typedef Bucket = String;
+
+class Model {
+  Model({required this.region, required this.locations, required this.bucket});
+
+  final String region;
+  final List<String> locations;
+  final Bucket bucket;
+
+  Model copyWith({String? region, List<String>? locations, Bucket? bucket}) {
+    return Model(
+      region: region ?? this.region,
+      locations: locations ?? this.locations,
+      bucket: bucket ?? this.bucket,
+    );
+  }
+}
+
 final locationName = signal('TH_NP15_GEN-APND', debugLabel: 'locationName');
+final multipleLocations = ListSignal<String>(
+  [],
+  debugLabel: 'multipleLocations',
+);
+
 final locations = futureSignal(getLocations, debugLabel: 'locations');
-final cacheLocations = <String>['TH_NP15_GEN-APND'];
-final term = signal(
-  Term.parse('Jan26', getLocation('America/Los_Angeles')),
-  debugLabel: 'term',
-);
-final tz = getLocation('America/Los_Angeles');
 
-final prices = futureSignal(
-  () async {
-    print(
-      'Fetching prices for location: ${locationName.value} and term: ${term.value}',
-    );
-
-    var data = await getHourlyLmpCaiso(
-      locationName: locationName.value,
-      term: term.value,
-    );
-    // print(data.length);
-    return data;
-  },
-  debugLabel: 'prices',
-  dependencies: [locationName, term],
-);
-
+final cacheLocations = <String>[];
 Future<List<String>> getLocations() async {
-  if (cacheLocations.length == 1) {
+  if (cacheLocations.isEmpty) {
     var xs = <String>[];
     var res = await http.get(
       Uri.parse('${MyApp.rustServer}/caiso/node_table/all'),
@@ -48,6 +49,25 @@ Future<List<String>> getLocations() async {
   }
   return cacheLocations;
 }
+
+final term = signal(
+  Term.parse('Jan26', getLocation('America/Los_Angeles')),
+  debugLabel: 'term',
+);
+final tz = getLocation('America/Los_Angeles');
+
+final prices = futureSignal(
+  () async {
+    var data = await getHourlyLmpCaiso(
+      locationName: locationName.value,
+      term: term.value,
+    );
+    // print(data.length);
+    return data;
+  },
+  debugLabel: 'prices',
+  dependencies: [locationName, term],
+);
 
 Future<List<(TZDateTime, num)>> getHourlyLmpCaiso({
   required String locationName,
