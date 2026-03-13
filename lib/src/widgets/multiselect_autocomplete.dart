@@ -2,7 +2,6 @@
 // import 'package:pointer_interceptor/pointer_interceptor.dart';
 // import 'package:signals_flutter/signals_flutter.dart';
 
-
 // /// A multi-select autocomplete widget. Similar to [AutocompleteUi] but allows
 // /// selecting multiple items simultaneously.
 // ///
@@ -13,8 +12,8 @@
 // /// The dropdown opens when the text field gains focus and closes when the user
 // /// taps outside the widget.
 // ///
-// class MultiSelectAutocompleteUi2<T> extends StatefulWidget {
-//   const MultiSelectAutocompleteUi2({
+// class MultiSelectAutocompleteUi<T> extends StatefulWidget {
+//   const MultiSelectAutocompleteUi({
 //     required this.model,
 //     required this.setSelection,
 //     required this.getSelection,
@@ -28,7 +27,7 @@
 //   // what gets selected
 //   final Signal<T> model;
 //   final void Function(List<String> value) setSelection;
-//   final List<String>? Function(T model) getSelection;
+//   final List<String> Function(T model) getSelection;
 
 //   /// All available choices to pick from.
 //   final Set<String> choices;
@@ -47,11 +46,12 @@
 //   final String itemName;
 
 //   @override
-//   State<MultiSelectAutocompleteUi2> createState() =>
-//       _MultiSelectAutocompleteUi2State();
+//   State<MultiSelectAutocompleteUi<T>> createState() =>
+//       _MultiSelectAutocompleteUiState<T>();
 // }
 
-// class _MultiSelectAutocompleteUi2State extends State<MultiSelectAutocompleteUi2> {
+// class _MultiSelectAutocompleteUiState<T>
+//     extends State<MultiSelectAutocompleteUi<T>> {
 //   final FocusNode _focusNode = FocusNode();
 //   final TextEditingController _controller = TextEditingController();
 //   final LayerLink _layerLink = LayerLink();
@@ -104,28 +104,31 @@
 //   }
 
 //   void _toggleSelection(String value) {
-//     final current = widget.selections.value.toSet();
+//     final current = widget.getSelection(widget.model.value).toSet();
 //     if (current.contains(value)) {
 //       current.remove(value);
 //     } else {
 //       current.add(value);
 //     }
-//     widget.selections.value = current.toList();
+//     widget.setSelection(current.toList());
+//     _focusNode.requestFocus();
 //   }
 
 //   void _clearAll() {
-//     widget.selections.value = [];
+//     widget.setSelection([]);
+//     _focusNode.requestFocus();
 //   }
 
 //   void _selectAll() {
 //     final query = _querySignal.value.toLowerCase();
-//     final selected = widget.selections.value.toSet();
+//     final selected = widget.getSelection(widget.model.value).toSet();
 //     final toAdd = widget.choices.where(
 //       (e) =>
 //           !selected.contains(e) &&
 //           (query.isEmpty || e.toLowerCase().contains(query)),
 //     );
-//     widget.selections.value = [...selected, ...toAdd].toList();
+//     widget.setSelection([...selected, ...toAdd].toList());
+//     _focusNode.requestFocus();
 //   }
 
 //   OverlayEntry _createOverlayEntry() {
@@ -152,9 +155,10 @@
 //                     maxHeight: widget.height,
 //                     maxWidth: widget.width,
 //                   ),
-//                   child: _MultiSelectOverlayList(
+//                   child: _MultiSelectOverlayList<T>(
 //                     choices: widget.choices,
-//                     selections: widget.selections,
+//                     model: widget.model,
+//                     getSelection: widget.getSelection,
 //                     querySignal: _querySignal,
 //                     onToggle: _toggleSelection,
 //                     onClearAll: _clearAll,
@@ -177,7 +181,7 @@
 //       child: CompositedTransformTarget(
 //         link: _layerLink,
 //         child: Watch((_) {
-//           final count = widget.selections.value.length;
+//           final count = widget.getSelection(widget.model.value).length;
 //           return TextFormField(
 //             style: const TextStyle(fontSize: 13.0),
 //             decoration: InputDecoration(
@@ -204,10 +208,11 @@
 // /// overlay. Isolating it here means the structural overlay widgets
 // /// (Positioned, CompositedTransformFollower, Material, etc.) never rebuild
 // /// when signals change — only the CustomScrollView inside does.
-// class _MultiSelectOverlayList extends StatelessWidget {
+// class _MultiSelectOverlayList<T> extends StatelessWidget {
 //   const _MultiSelectOverlayList({
 //     required this.choices,
-//     required this.selections,
+//     required this.model,
+//     required this.getSelection,
 //     required this.querySignal,
 //     required this.onToggle,
 //     required this.onClearAll,
@@ -215,7 +220,8 @@
 //   });
 
 //   final Set<String> choices;
-//   final ListSignal<String> selections;
+//   final Signal<T> model;
+//   final List<String> Function(T) getSelection;
 //   final Signal<String> querySignal;
 //   final void Function(String) onToggle;
 //   final VoidCallback onClearAll;
@@ -252,7 +258,7 @@
 //   Widget build(BuildContext context) {
 //     return Watch((_) {
 //       final query = querySignal.value.toLowerCase();
-//       final selectedList = selections.value;
+//       final selectedList = getSelection(model.value);
 //       final selected = selectedList.toSet();
 //       final unselected = choices
 //           .where(

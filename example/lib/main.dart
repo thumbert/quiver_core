@@ -35,7 +35,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
-    locations.value; // trigger loading of locations for Caiso
+    // locations.value; // trigger loading of locations for Caiso
     super.initState();
   }
 
@@ -56,6 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 padding: const EdgeInsets.all(32.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  spacing: 24.0,
                   children: <Widget>[
                     Row(
                       spacing: 24.0,
@@ -71,11 +72,45 @@ class _MyHomePageState extends State<MyHomePage> {
                               Row(
                                 children: [
                                   SizedBox(width: 100, child: Text('Region')),
+                                  Container(
+                                    width: 200,
+                                    decoration: BoxDecoration(
+                                      color: Colors.blueGrey.shade50,
+                                      borderRadius: BorderRadius.circular(4.0),
+                                    ),
+                                    child: DropdownUi(
+                                      model: Model.region,
+                                      setSelection: (value) =>
+                                          Model.region.value = value,
+                                      getSelection: (model) =>
+                                          Model.region.value,
+                                      choices: {'CAISO', 'ISONE', 'NYISO'},
+                                      width: 200,
+                                    ),
+                                  ),
                                 ],
                               ),
                               Row(
                                 children: [
                                   SizedBox(width: 100, child: Text('Bucket')),
+                                  Container(
+                                    width: 200,
+                                    decoration: BoxDecoration(
+                                      color: Colors.blueGrey.shade50,
+                                      borderRadius: BorderRadius.circular(4.0),
+                                    ),
+                                    child: DropdownUi(
+                                      model: Model.bucket,
+                                      setSelection: (value) =>
+                                          Model.bucket.value = value,
+                                      getSelection: (model) =>
+                                          Model.bucket.value,
+                                      choices: model.getBuckets(
+                                        Model.region.value,
+                                      ),
+                                      width: 200,
+                                    ),
+                                  ),
                                 ],
                               ),
                               Row(
@@ -88,19 +123,38 @@ class _MyHomePageState extends State<MyHomePage> {
                                     width: 400,
                                     decoration: BoxDecoration(
                                       color: Colors.blueGrey.shade50,
-                                      border: BoxBorder.all(
-                                        color: Colors.blueGrey.shade200,
-                                      ),
                                       borderRadius: BorderRadius.circular(4.0),
                                     ),
-                                    child: MultiSelectAutocompleteUi(
-                                      choices: cacheLocations.toSet(),
-                                      selections:
-                                          multipleLocations, // ListSignal<String>
-                                      width: 400,
-                                      height: 600,
-                                      itemName: 'location',
-                                    ),
+                                    child: switch (Model.allLocations.value) {
+                                      AsyncData<List<String>>() =>
+                                        MultiSelectAutocompleteUi(
+                                          selections: Model.locations,
+                                          // setSelection: (value) =>
+                                          //     Model.locations.value = [
+                                          //       ...value,
+                                          //     ],
+                                          // getSelection: (model) =>
+                                          //     Model.locations.value,
+                                          choices:
+                                              Model
+                                                  .locationCache[Model
+                                                      .region
+                                                      .value]
+                                                  ?.toSet() ??
+                                              {},
+                                          itemName: 'location',
+                                          width: 400,
+                                          key: ValueKey(
+                                            Model.locations.value.join(','),
+                                          ), // needed to wipe the textfield on icon clear
+                                        ),
+                                      AsyncError<List<String>>() => Text(
+                                        'Error loading locations for ${Model.region.value}',
+                                      ),
+                                      AsyncLoading<List<String>>() => Center(
+                                        child: CircularProgressIndicator(),
+                                      ),
+                                    },
                                   ),
                                 ],
                               ),
@@ -108,39 +162,43 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                         ),
 
-                        Container(
-                          width: 400,
-                          decoration: BoxDecoration(
-                            color: Colors.blueGrey.shade50,
-                            borderRadius: BorderRadius.circular(4.0),
-                          ),
-                          child: switch (locations.value) {
-                            AsyncData<List<String>>() => AutocompleteUi(
-                              model: locationName,
-                              choices: cacheLocations.toSet(),
-                              setSelection: (value) =>
-                                  locationName.value = value,
-                              getSelection: (model) => locationName.value,
-                              width: 400,
-                              key: ValueKey(
-                                locationName.value,
-                              ), // needed to wipe the textfield on icon clear
-                            ),
-                            AsyncError<List<String>>() => Text(
-                              'Error loading locations for Caiso',
-                            ),
-                            AsyncLoading<List<String>>() => Center(
-                              child: CircularProgressIndicator(),
-                            ),
-                          },
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            locationName.value = '';
-                          },
-                          icon: const Icon(Icons.clear),
-                        ),
+                        // Container(
+                        //   width: 400,
+                        //   decoration: BoxDecoration(
+                        //     color: Colors.blueGrey.shade50,
+                        //     borderRadius: BorderRadius.circular(4.0),
+                        //   ),
+                        //   child: switch (locations.value) {
+                        //     AsyncData<List<String>>() => AutocompleteUi(
+                        //       model: locationName,
+                        //       choices: Model.locationCache[Model.region.value]?.toSet() ?? {},
+                        //       setSelection: (value) =>
+                        //           locationName.value = value,
+                        //       getSelection: (model) => locationName.value,
+                        //       width: 400,
+                        //       key: ValueKey(
+                        //         locationName.value,
+                        //       ), // needed to wipe the textfield on icon clear
+                        //     ),
+                        //     AsyncError<List<String>>() => Text(
+                        //       'Error loading locations for Caiso',
+                        //     ),
+                        //     AsyncLoading<List<String>>() => Center(
+                        //       child: CircularProgressIndicator(),
+                        //     ),
+                        //   },
+                        // ),
+                        // IconButton(
+                        //   onPressed: () {
+                        //     locationName.value = '';
+                        //   },
+                        //   icon: const Icon(Icons.clear),
+                        // ),
                       ],
+                    ),
+
+                    Text(
+                      'Selected locations: ${Model.locations.value.join(', ')}',
                     ),
                   ],
                 ),
