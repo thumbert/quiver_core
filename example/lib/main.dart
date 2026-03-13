@@ -113,51 +113,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   ),
                                 ],
                               ),
-                              Row(
-                                children: [
-                                  SizedBox(
-                                    width: 100,
-                                    child: Text('Locations'),
-                                  ),
-                                  Container(
-                                    width: 400,
-                                    decoration: BoxDecoration(
-                                      color: Colors.blueGrey.shade50,
-                                      borderRadius: BorderRadius.circular(4.0),
-                                    ),
-                                    child: switch (Model.allLocations.value) {
-                                      AsyncData<List<String>>() =>
-                                        MultiSelectAutocompleteUi(
-                                          selections: Model.locations,
-                                          // setSelection: (value) =>
-                                          //     Model.locations.value = [
-                                          //       ...value,
-                                          //     ],
-                                          // getSelection: (model) =>
-                                          //     Model.locations.value,
-                                          choices:
-                                              Model
-                                                  .locationCache[Model
-                                                      .region
-                                                      .value]
-                                                  ?.toSet() ??
-                                              {},
-                                          itemName: 'location',
-                                          width: 400,
-                                          key: ValueKey(
-                                            Model.locations.value.join(','),
-                                          ), // needed to wipe the textfield on icon clear
-                                        ),
-                                      AsyncError<List<String>>() => Text(
-                                        'Error loading locations for ${Model.region.value}',
-                                      ),
-                                      AsyncLoading<List<String>>() => Center(
-                                        child: CircularProgressIndicator(),
-                                      ),
-                                    },
-                                  ),
-                                ],
-                              ),
+                              LocationRow(),
                             ],
                           ),
                         ),
@@ -206,6 +162,44 @@ class _MyHomePageState extends State<MyHomePage> {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class LocationRow extends StatelessWidget {
+  const LocationRow({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Watch(
+      (_) => Row(
+        children: [
+          SizedBox(width: 100, child: Text('Locations')),
+          Container(
+            width: 400,
+            decoration: BoxDecoration(
+              color: Colors.blueGrey.shade50,
+              borderRadius: BorderRadius.circular(4.0),
+            ),
+            child: switch (Model.allLocations.value) {
+              AsyncData<List<String>>() => MultiSelectAutocompleteUi(
+                model: Model.locations,
+                setSelection: (value) => Model.locations.value = [...value],
+                getSelection: (model) => Model.locations.value,
+                choices: Model.locationCache[Model.region.value]?.toSet() ?? {},
+                itemName: 'location',
+                width: 400,
+              ),
+              AsyncError<List<String>>() => Text(
+                'Error loading locations for ${Model.region.value}',
+              ),
+              AsyncLoading<List<String>>() => Center(
+                child: CircularProgressIndicator(),
+              ),
+            },
+          ),
+        ],
       ),
     );
   }
