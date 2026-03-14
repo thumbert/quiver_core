@@ -1,12 +1,11 @@
 import 'dart:convert';
 
 import 'package:date/date.dart';
+import 'package:elec/elec.dart';
 import 'package:gallery/main.dart';
 import 'package:http/http.dart' as http;
 import 'package:signals_flutter/signals_flutter.dart';
 import 'package:timezone/timezone.dart';
-
-typedef Bucket = String;
 
 final model = Model();
 
@@ -15,12 +14,14 @@ class Model {
     _regionEffect = effect(onUpdateRegion);
   }
 
-  static final region = signal('CAISO', debugLabel: 'region');
-  static final bucket = signal('Caiso6x16', debugLabel: 'bucket');
+  // static final region = signal<String?>('CAISO', debugLabel: 'region');
+  // static final bucket = signal<Bucket?>(Bucket.peakCaiso, debugLabel: 'bucket');
+  static final region = signal<String?>(null, debugLabel: 'region');
+  static final bucket = signal<Bucket?>(null, debugLabel: 'bucket');
   static final locations = ListSignal(<String>[], debugLabel: 'locations');
 
   static final allLocations = futureSignal(
-    getLocations,
+    getAllLocations,
     debugLabel: 'getAllLocations',
     dependencies: [region],
   );
@@ -29,26 +30,20 @@ class Model {
   late final void Function() _regionEffect;
 
   void onUpdateRegion() {
-    bucket.value = getBuckets(region.value).first;
-    locations.value = [];                                          // setSelection: (value) =>
-                                          //     Model.locations.value = [
-                                          //       ...value,
-                                          //     ],
-                                          // getSelection: (model) =>
-                                          //     Model.locations.value,
-                                          // setSelection: (value) =>
-                                          //     Model.locations.value = [
-                                          //       ...value,
-                                          //     ],
-                                          // getSelection: (model) =>
-                                          //     Model.locations.value,
-
+    if (region.value == null) {
+      bucket.value = null;
+    } else {
+      bucket.value = getBuckets(region.value!).first;
+    }
+    locations.value = [];
   }
 
   static final locationCache = <String, List<String>>{};
 
-  static Future<List<String>> getLocations() async {
+  static Future<List<String>> getAllLocations() async {
     final r = region.value;
+    if (r == null) return [];
+
     // print('in getLocations for $r, cached: ${locationCache.containsKey(r)}');
     if (!locationCache.containsKey(r)) {
       var res = await http.get(
@@ -64,13 +59,18 @@ class Model {
     return locationCache[r]!;
   }
 
-  Set<String> getBuckets(String region) {
+  Set<Bucket> getBuckets(String? region) {
     switch (region) {
       case 'CAISO':
-        return {'Caiso6x16', 'Caiso1x16H', 'ATC'};
+        return {
+          Bucket.peakCaiso,
+          Bucket.b1x16HCaiso,
+          Bucket.b7x8Caiso,
+          Bucket.atc,
+        };
       case 'ISONE':
       case 'NYISO':
-        return {'5x16', '2x16H', '7x8', 'ATC'};
+        return {Bucket.b5x16, Bucket.b2x16H, Bucket.b7x8, Bucket.atc};
       default:
         return {};
     }

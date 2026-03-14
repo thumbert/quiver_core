@@ -1,3 +1,4 @@
+import 'package:elec/elec.dart';
 import 'package:flutter/material.dart';
 import 'package:signals_flutter/signals_flutter.dart';
 import 'package:quiver_core/quiver_core.dart';
@@ -102,12 +103,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                     child: DropdownUi(
                                       model: Model.bucket,
                                       setSelection: (value) =>
-                                          Model.bucket.value = value,
+                                          Model.bucket.value = Bucket.parse(value),
                                       getSelection: (model) =>
-                                          Model.bucket.value,
+                                          Model.bucket.value?.name ?? '',
                                       choices: model.getBuckets(
                                         Model.region.value,
-                                      ),
+                                      ).map((e) => e.name).toSet(),
                                       width: 200,
                                     ),
                                   ),

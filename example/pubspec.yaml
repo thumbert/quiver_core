@@ -12,9 +12,11 @@ dependencies:
     sdk: flutter
 
   collection: '>=1.19.0 <2.0.0'
-  csv: '>=7.0.0 <8.0.0'
+  csv: '>=6.0.0 <8.0.0'
   date: 
     git: https://github.com/thumbert/date.git
+  elec: 
+    git: https://github.com/thumbert/elec.git
   graphic: ^2.6.0
   http: ^1.6.0
   quiver_core:

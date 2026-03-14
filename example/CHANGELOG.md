@@ -1,4 +1,7 @@
 
+# 2026-03-14
+- Add autocomplete dropdown with multi select. 
+- Improve performance of autocompleted dropdown (Claude).  
 
 # 2026-03-06
 - Basic legend working
