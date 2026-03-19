@@ -14,8 +14,6 @@ class Model {
     _regionEffect = effect(onUpdateRegion);
   }
 
-  // static final region = signal<String?>('CAISO', debugLabel: 'region');
-  // static final bucket = signal<Bucket?>(Bucket.peakCaiso, debugLabel: 'bucket');
   static final region = signal<String?>(null, debugLabel: 'region');
   static final bucket = signal<Bucket?>(null, debugLabel: 'bucket');
   static final locations = ListSignal(<String>[], debugLabel: 'locations');

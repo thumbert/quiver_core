@@ -36,7 +36,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
-    // locations.value; // trigger loading of locations for Caiso
+    model;  // initialize the model and its effects!
     super.initState();
   }
 
@@ -103,12 +103,15 @@ class _MyHomePageState extends State<MyHomePage> {
                                     child: DropdownUi(
                                       model: Model.bucket,
                                       setSelection: (value) =>
-                                          Model.bucket.value = Bucket.parse(value),
+                                          Model.bucket.value = Bucket.parse(
+                                            value,
+                                          ),
                                       getSelection: (model) =>
                                           Model.bucket.value?.name ?? '',
-                                      choices: model.getBuckets(
-                                        Model.region.value,
-                                      ).map((e) => e.name).toSet(),
+                                      choices: model
+                                          .getBuckets(Model.region.value)
+                                          .map((e) => e.name)
+                                          .toSet(),
                                       width: 200,
                                     ),
                                   ),
