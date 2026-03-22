@@ -36,7 +36,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
-    model;  // initialize the model and its effects!
+    model; // initialize the model and its effects!
     super.initState();
   }
 
@@ -61,102 +61,76 @@ class _MyHomePageState extends State<MyHomePage> {
                   children: <Widget>[
                     Row(
                       spacing: 24.0,
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Lmp(),
                         Container(
                           padding: const EdgeInsets.all(16.0),
-                          color: Colors.amber.shade100,
+                          color: Colors.greenAccent.shade100,
                           child: Column(
                             spacing: 12.0,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Row(
                                 children: [
-                                  SizedBox(width: 100, child: Text('Region')),
+                                  SizedBox(width: 100, child: Text('Term')),
                                   Container(
                                     width: 200,
                                     decoration: BoxDecoration(
                                       color: Colors.blueGrey.shade50,
                                       borderRadius: BorderRadius.circular(4.0),
                                     ),
-                                    child: DropdownUi(
-                                      model: Model.region,
-                                      setSelection: (value) =>
-                                          Model.region.value = value,
-                                      getSelection: (model) =>
-                                          Model.region.value,
-                                      choices: {'CAISO', 'ISONE', 'NYISO'},
-                                      width: 200,
+                                    child: TermUi(
+                                      model: term,
+                                      setTerm: (value) => term.value = value,
+                                      getTerm: (model) => term.value,
                                     ),
                                   ),
                                 ],
                               ),
                               Row(
                                 children: [
-                                  SizedBox(width: 100, child: Text('Bucket')),
+                                  SizedBox(width: 100, child: Text('Month')),
                                   Container(
                                     width: 200,
                                     decoration: BoxDecoration(
                                       color: Colors.blueGrey.shade50,
                                       borderRadius: BorderRadius.circular(4.0),
                                     ),
-                                    child: DropdownUi(
-                                      model: Model.bucket,
-                                      setSelection: (value) =>
-                                          Model.bucket.value = Bucket.parse(
-                                            value,
-                                          ),
-                                      getSelection: (model) =>
-                                          Model.bucket.value?.name ?? '',
-                                      choices: model
-                                          .getBuckets(Model.region.value)
-                                          .map((e) => e.name)
-                                          .toSet(),
-                                      width: 200,
+                                    child: MonthUi(
+                                      model: month,
+                                      setMonth: (value) => month.value = value,
+                                      getMonth: (model) => month.value,
                                     ),
                                   ),
                                 ],
                               ),
-                              LocationRow(),
+
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    width: 100,
+                                    child: Text('As of date'),
+                                  ),
+                                  Container(
+                                    width: 200,
+                                    decoration: BoxDecoration(
+                                      color: Colors.blueGrey.shade50,
+                                      borderRadius: BorderRadius.circular(4.0),
+                                    ),
+                                    child: DateUi(
+                                      model: day,
+                                      setDate: (value) => day.value = value,
+                                      getDate: (model) => day.value,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ],
                           ),
                         ),
-
-                        // Container(
-                        //   width: 400,
-                        //   decoration: BoxDecoration(
-                        //     color: Colors.blueGrey.shade50,
-                        //     borderRadius: BorderRadius.circular(4.0),
-                        //   ),
-                        //   child: switch (locations.value) {
-                        //     AsyncData<List<String>>() => AutocompleteUi(
-                        //       model: locationName,
-                        //       choices: Model.locationCache[Model.region.value]?.toSet() ?? {},
-                        //       setSelection: (value) =>
-                        //           locationName.value = value,
-                        //       getSelection: (model) => locationName.value,
-                        //       width: 400,
-                        //       key: ValueKey(
-                        //         locationName.value,
-                        //       ), // needed to wipe the textfield on icon clear
-                        //     ),
-                        //     AsyncError<List<String>>() => Text(
-                        //       'Error loading locations for Caiso',
-                        //     ),
-                        //     AsyncLoading<List<String>>() => Center(
-                        //       child: CircularProgressIndicator(),
-                        //     ),
-                        //   },
-                        // ),
-                        // IconButton(
-                        //   onPressed: () {
-                        //     locationName.value = '';
-                        //   },
-                        //   icon: const Icon(Icons.clear),
-                        // ),
                       ],
                     ),
-
                     Text(
                       'Selected locations: ${Model.locations.value.join(', ')}',
                     ),
@@ -166,6 +140,67 @@ class _MyHomePageState extends State<MyHomePage> {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class Lmp extends StatelessWidget {
+  const Lmp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(16.0),
+      color: Colors.amber.shade100,
+      child: Column(
+        spacing: 12.0,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              SizedBox(width: 100, child: Text('Region')),
+              Container(
+                width: 200,
+                decoration: BoxDecoration(
+                  color: Colors.blueGrey.shade50,
+                  borderRadius: BorderRadius.circular(4.0),
+                ),
+                child: DropdownUi(
+                  model: Model.region,
+                  setSelection: (value) => Model.region.value = value,
+                  getSelection: (model) => Model.region.value,
+                  choices: {'CAISO', 'ISONE', 'NYISO'},
+                  width: 200,
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              SizedBox(width: 100, child: Text('Bucket')),
+              Container(
+                width: 200,
+                decoration: BoxDecoration(
+                  color: Colors.blueGrey.shade50,
+                  borderRadius: BorderRadius.circular(4.0),
+                ),
+                child: DropdownUi(
+                  model: Model.bucket,
+                  setSelection: (value) =>
+                      Model.bucket.value = Bucket.parse(value),
+                  getSelection: (model) => Model.bucket.value?.name ?? '',
+                  choices: model
+                      .getBuckets(Model.region.value)
+                      .map((e) => e.name)
+                      .toSet(),
+                  width: 200,
+                ),
+              ),
+            ],
+          ),
+          LocationRow(),
+        ],
       ),
     );
   }

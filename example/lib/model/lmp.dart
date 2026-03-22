@@ -8,6 +8,9 @@ import 'package:signals_flutter/signals_flutter.dart';
 import 'package:timezone/timezone.dart';
 
 final model = Model();
+final term = signal(Term.parse('Q1,26', UTC), debugLabel: 'term');
+final month = signal(Month.parse('Mar26'), debugLabel: 'month');
+final day = signal(Date.parse('17Feb26'), debugLabel: 'day');
 
 class Model {
   Model() {
@@ -101,10 +104,11 @@ class Model {
 //   return cacheLocations;
 // }
 
-final term = signal(
-  Term.parse('Jan26', getLocation('America/Los_Angeles')),
-  debugLabel: 'term',
-);
+// final term = signal(
+//   Term.parse('Jan26', getLocation('America/Los_Angeles')),
+//   debugLabel: 'term',
+// );
+
 final tz = getLocation('America/Los_Angeles');
 
 final prices = futureSignal(

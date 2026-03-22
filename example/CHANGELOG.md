@@ -1,4 +1,8 @@
 
+# 2026-03-22
+- Add specialized widgets based on TextField for a Date and Month input similar to 
+  Term. 
+
 # 2026-03-14
 - Add autocomplete dropdown with multi select. 
 - Improve performance of autocompleted dropdown (Claude).  

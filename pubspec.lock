@@ -46,7 +46,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "87468e13021593d235e8d0c42d9130071a406bdc"
+      resolved-ref: f7304705e974d971524afa3f2233f93bcd4667af
       url: "https://github.com/thumbert/date.git"
     source: git
     version: "3.1.1"
