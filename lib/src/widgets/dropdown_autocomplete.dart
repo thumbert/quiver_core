@@ -20,6 +20,7 @@ class AutocompleteUi<T> extends StatefulWidget {
     ListSignal<String>? accumulatedSelection,
     required this.width,
     this.height = 500.0,
+    this.style,
     super.key,
   }) {
     this.accumulatedSelection = accumulatedSelection ?? <String>[].toSignal();
@@ -35,6 +36,7 @@ class AutocompleteUi<T> extends StatefulWidget {
   final double width;
   // height of the dropdown
   final double height;
+  final TextStyle? style;
 
   @override
   State<AutocompleteUi<T>> createState() => _AutocompleteUiState<T>();
@@ -75,6 +77,7 @@ class _AutocompleteUiState<T> extends State<AutocompleteUi<T>> {
               textEditingController: textEditingController,
               onFieldSubmitted: onFieldSubmitted,
               options: widget.choices,
+              style: widget.style,
             ),
         optionsBuilder: (TextEditingValue textEditingValue) {
           if (textEditingValue == TextEditingValue.empty) {
@@ -172,6 +175,7 @@ class _AutocompleteField extends StatelessWidget {
     required this.textEditingController,
     required this.onFieldSubmitted,
     required this.options,
+    this.style,
   });
 
   final FocusNode focusNode;
@@ -181,11 +185,12 @@ class _AutocompleteField extends StatelessWidget {
   final TextEditingController textEditingController;
 
   final Iterable<String> options;
+  final TextStyle? style;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      // style: const TextStyle(fontSize: 13.0),
+      style: style,
       decoration: const InputDecoration(
         isDense: true,
         contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),

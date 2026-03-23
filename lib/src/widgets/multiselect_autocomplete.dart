@@ -21,6 +21,7 @@ class MultiSelectAutocompleteUi<T> extends StatefulWidget {
     required this.width,
     this.height = 500.0,
     this.itemName = 'item',
+    this.style,
     super.key,
   });
 
@@ -44,6 +45,8 @@ class MultiSelectAutocompleteUi<T> extends StatefulWidget {
 
   /// Name of the item type, used in the text field hint (e.g. "3 fruits selected").
   final String itemName;
+
+  final TextStyle? style;
 
   @override
   State<MultiSelectAutocompleteUi<T>> createState() =>
@@ -183,7 +186,7 @@ class _MultiSelectAutocompleteUiState<T>
         child: Watch((_) {
           final count = widget.getSelection(widget.model.value).length;
           return TextFormField(
-            // style: const TextStyle(fontSize: 13.0),
+            style: widget.style,
             decoration: InputDecoration(
               isDense: true,
               contentPadding: const EdgeInsets.symmetric(

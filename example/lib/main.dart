@@ -213,6 +213,7 @@ class Lmp extends StatelessWidget {
               ),
             ],
           ),
+          LocationsRow(),
           LocationRow(),
         ],
       ),
@@ -220,8 +221,8 @@ class Lmp extends StatelessWidget {
   }
 }
 
-class LocationRow extends StatelessWidget {
-  const LocationRow({super.key});
+class LocationsRow extends StatelessWidget {
+  const LocationsRow({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -243,6 +244,45 @@ class LocationRow extends StatelessWidget {
                 choices: Model.locationCache[Model.region.value]?.toSet() ?? {},
                 itemName: 'location',
                 width: 400,
+              ),
+              AsyncError<List<String>>() => Text(
+                'Error loading locations for ${Model.region.value}',
+              ),
+              AsyncLoading<List<String>>() => Center(
+                child: CircularProgressIndicator(),
+              ),
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+
+class LocationRow extends StatelessWidget {
+  const LocationRow({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Watch(
+      (_) => Row(
+        children: [
+          SizedBox(width: 100, child: Text('Location')),
+          Container(
+            width: 400,
+            decoration: BoxDecoration(
+              color: Colors.blueGrey.shade50,
+              borderRadius: BorderRadius.circular(4.0),
+            ),
+            child: switch (Model.allLocations.value) {
+              AsyncData<List<String>>() => AutocompleteUi(
+                model: Model.location,
+                setSelection: (value) => Model.location.value = value,
+                getSelection: (model) => Model.location.value,
+                choices: Model.locationCache[Model.region.value]?.toSet() ?? {},
+                width: 400,
+                style: const TextStyle(fontSize: 12),
               ),
               AsyncError<List<String>>() => Text(
                 'Error loading locations for ${Model.region.value}',

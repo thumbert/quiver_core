@@ -21,6 +21,7 @@ class Model {
   static final region = signal<String?>(null, debugLabel: 'region');
   static final bucket = signal<Bucket?>(null, debugLabel: 'bucket');
   static final locations = ListSignal(<String>[], debugLabel: 'locations');
+  static final location = signal<String?>(null, debugLabel: 'location');
 
   static final allLocations = futureSignal(
     getAllLocations,
