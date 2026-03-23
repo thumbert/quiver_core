@@ -64,71 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Lmp(),
-                        Container(
-                          padding: const EdgeInsets.all(16.0),
-                          color: Colors.greenAccent.shade100,
-                          child: Column(
-                            spacing: 12.0,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  SizedBox(width: 100, child: Text('Term')),
-                                  Container(
-                                    width: 200,
-                                    decoration: BoxDecoration(
-                                      color: Colors.blueGrey.shade50,
-                                      borderRadius: BorderRadius.circular(4.0),
-                                    ),
-                                    child: TermUi(
-                                      model: term,
-                                      setTerm: (value) => term.value = value,
-                                      getTerm: (model) => term.value,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  SizedBox(width: 100, child: Text('Month')),
-                                  Container(
-                                    width: 200,
-                                    decoration: BoxDecoration(
-                                      color: Colors.blueGrey.shade50,
-                                      borderRadius: BorderRadius.circular(4.0),
-                                    ),
-                                    child: MonthUi(
-                                      model: month,
-                                      setMonth: (value) => month.value = value,
-                                      getMonth: (model) => month.value,
-                                    ),
-                                  ),
-                                ],
-                              ),
-
-                              Row(
-                                children: [
-                                  SizedBox(
-                                    width: 100,
-                                    child: Text('As of date'),
-                                  ),
-                                  Container(
-                                    width: 200,
-                                    decoration: BoxDecoration(
-                                      color: Colors.blueGrey.shade50,
-                                      borderRadius: BorderRadius.circular(4.0),
-                                    ),
-                                    child: DateUi(
-                                      model: day,
-                                      setDate: (value) => day.value = value,
-                                      getDate: (model) => day.value,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
+                        TermsDemo(),
                       ],
                     ),
                     Text(
@@ -140,6 +76,81 @@ class _MyHomePageState extends State<MyHomePage> {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class TermsDemo extends StatelessWidget {
+  const TermsDemo({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(16.0),
+      color: Colors.greenAccent.shade100,
+      child: Column(
+        spacing: 12.0,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              SizedBox(width: 100, child: Text('Term')),
+              Container(
+                width: 200,
+                decoration: BoxDecoration(
+                  color: Colors.blueGrey.shade50,
+                  borderRadius: BorderRadius.circular(4.0),
+                ),
+                child: TermUi(
+                  model: term,
+                  setTerm: (value) => term.value = value,
+                  getTerm: (model) => term.value,
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              SizedBox(width: 100, child: Text('Month')),
+              Container(
+                width: 200,
+                decoration: BoxDecoration(
+                  color: Colors.blueGrey.shade50,
+                  borderRadius: BorderRadius.circular(4.0),
+                ),
+                child: MonthUi(
+                  model: month,
+                  setMonth: (value) => month.value = value,
+                  getMonth: (model) => month.value,
+                ),
+              ),
+            ],
+          ),
+    
+          Row(
+            children: [
+              SizedBox(
+                width: 100,
+                child: Text('As of date'),
+              ),
+              Container(
+                width: 200,
+                decoration: BoxDecoration(
+                  color: Colors.blueGrey.shade50,
+                  borderRadius: BorderRadius.circular(4.0),
+                ),
+                child: DateUi(
+                  model: day,
+                  setDate: (value) => day.value = value,
+                  getDate: (model) => day.value,
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

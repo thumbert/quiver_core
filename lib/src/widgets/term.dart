@@ -12,8 +12,9 @@ class TermUi<T> extends StatefulWidget {
   });
 
   final Signal<T> model;
+
   /// Set the term value inside the model
-  final void Function(Term value) setTerm;
+  final void Function(Term? value) setTerm;
   final Term? Function(T model) getTerm;
 
   @override
@@ -31,11 +32,17 @@ class _TermUiState<T> extends State<TermUi<T>> {
   void initState() {
     super.initState();
     controller.text =
-        widget.getTerm(widget.model.value).toString().replaceAll('-', ' - ');
+        widget.getTerm(widget.model.value)?.toString().replaceAll('-', ' - ') ??
+        '';
     focusNode.addListener(() {
       if (!focusNode.hasFocus) {
         /// validate when you lose focus (Tab out of the field)
         setState(() {
+          if (controller.text.isEmpty) {
+            widget.setTerm(null);
+            error = null;
+            return;
+          }
           try {
             widget.setTerm(Term.parse(controller.text, UTC));
             error = null; // all good

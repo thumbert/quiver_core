@@ -12,8 +12,8 @@ class MonthUi<T> extends StatefulWidget {
 
   final Signal<T> model;
 
-  /// Set the month value inside the model
-  final void Function(Month value) setMonth;
+  /// Set the month value inside the model.  Allow null to clear the field.
+  final void Function(Month? value) setMonth;
   final Month? Function(T model) getMonth;
 
   @override
@@ -30,14 +30,16 @@ class _MonthUiState<T> extends State<MonthUi<T>> {
   @override
   void initState() {
     super.initState();
-    controller.text = widget
-        .getMonth(widget.model.value)
-        .toString()
-        .replaceAll('-', ' - ');
+    controller.text = widget.getMonth(widget.model.value)?.toString() ?? '';
     focusNode.addListener(() {
       if (!focusNode.hasFocus) {
         /// validate when you lose focus (Tab out of the field)
         setState(() {
+          if (controller.text.isEmpty) {
+            widget.setMonth(null);
+            error = null;
+            return;
+          }
           try {
             widget.setMonth(Month.parse(controller.text));
             controller.text = widget

@@ -12,8 +12,8 @@ class DateUi<T> extends StatefulWidget {
 
   final Signal<T> model;
 
-  /// Set the term value inside the model
-  final void Function(Date value) setDate;
+  /// Set the date value inside the model.  Allow null to clear the field.
+  final void Function(Date? value) setDate;
   final Date? Function(T model) getDate;
 
   @override
@@ -30,11 +30,16 @@ class _DateUiState<T> extends State<DateUi<T>> {
   @override
   void initState() {
     super.initState();
-    controller.text = widget.getDate(widget.model.value).toString();
+    controller.text = widget.getDate(widget.model.value)?.toString() ?? '';
     focusNode.addListener(() {
       if (!focusNode.hasFocus) {
         /// validate when you lose focus (Tab out of the field)
         setState(() {
+          if (controller.text.isEmpty) {
+            widget.setDate(null);
+            error = null;
+            return;
+          }
           try {
             widget.setDate(Date.parse(controller.text));
             controller.text = widget.getDate(widget.model.value).toString();

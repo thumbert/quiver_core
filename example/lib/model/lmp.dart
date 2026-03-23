@@ -8,9 +8,10 @@ import 'package:signals_flutter/signals_flutter.dart';
 import 'package:timezone/timezone.dart';
 
 final model = Model();
-final term = signal(Term.parse('Q1,26', UTC), debugLabel: 'term');
-final month = signal(Month.parse('Mar26'), debugLabel: 'month');
-final day = signal(Date.parse('17Feb26'), debugLabel: 'day');
+// final term = signal<Term?>(Term.parse('Q1,26', UTC), debugLabel: 'term');
+final term = signal<Term?>(null, debugLabel: 'term');
+final month = signal<Month?>(Month.parse('Mar26'), debugLabel: 'month');
+final day = signal<Date?>(Date.parse('17Feb26'), debugLabel: 'day');
 
 class Model {
   Model() {
@@ -78,6 +79,44 @@ class Model {
   }
 }
 
+
+final tz = getLocation('America/Los_Angeles');
+
+final prices = futureSignal(
+  () async {
+    var data = await getHourlyLmpCaiso(
+      locationName: Model.locations.value.first,
+      term: term.value!,
+    );
+    // print(data.length);
+    return data;
+  },
+  debugLabel: 'prices',
+  dependencies: [Model.locations, term],
+);
+
+Future<List<(TZDateTime, num)>> getHourlyLmpCaiso({
+  required String locationName,
+  required Term term,
+}) async {
+  final tz = getLocation('America/Los_Angeles');
+  final url =
+      '${MyApp.rustServer}/caiso/prices/da/hourly/'
+      'start/${term.startDate.toString()}/end/${term.endDate.toString()}'
+      '?node_ids=$locationName&components=lmp';
+  print(url);
+  var response = await http.get(Uri.parse(url));
+  var data = json.decode(response.body) as List;
+  print('Data length: ${data.length}');
+  return data
+      .map<(TZDateTime, num)>(
+        (e) => (TZDateTime.parse(tz, e['hour_beginning']), e['price']),
+      )
+      .toList();
+}
+
+
+
 // final locationName = signal('TH_NP15_GEN-APND', debugLabel: 'locationName');
 // final multipleLocations = ListSignal<String>(
 //   [],
@@ -108,38 +147,3 @@ class Model {
 //   Term.parse('Jan26', getLocation('America/Los_Angeles')),
 //   debugLabel: 'term',
 // );
-
-final tz = getLocation('America/Los_Angeles');
-
-final prices = futureSignal(
-  () async {
-    var data = await getHourlyLmpCaiso(
-      locationName: Model.locations.value.first,
-      term: term.value,
-    );
-    // print(data.length);
-    return data;
-  },
-  debugLabel: 'prices',
-  dependencies: [Model.locations, term],
-);
-
-Future<List<(TZDateTime, num)>> getHourlyLmpCaiso({
-  required String locationName,
-  required Term term,
-}) async {
-  final tz = getLocation('America/Los_Angeles');
-  final url =
-      '${MyApp.rustServer}/caiso/prices/da/hourly/'
-      'start/${term.startDate.toString()}/end/${term.endDate.toString()}'
-      '?node_ids=$locationName&components=lmp';
-  print(url);
-  var response = await http.get(Uri.parse(url));
-  var data = json.decode(response.body) as List;
-  print('Data length: ${data.length}');
-  return data
-      .map<(TZDateTime, num)>(
-        (e) => (TZDateTime.parse(tz, e['hour_beginning']), e['price']),
-      )
-      .toList();
-}
