@@ -3,19 +3,22 @@ import 'package:pointer_interceptor/pointer_interceptor.dart';
 import 'package:signals_flutter/signals_flutter.dart';
 
 class DropdownUi<T> extends StatefulWidget {
-  const DropdownUi(
-      {required this.model,
-      required this.choices,
-      required this.width,
-      required this.setSelection,
-      required this.getSelection,
-      super.key});
+  const DropdownUi({
+    required this.model,
+    required this.choices,
+    required this.width,
+    required this.setSelection,
+    required this.getSelection,
+    this.style,
+    super.key,
+  });
 
   final Signal<T> model;
   final void Function(String value) setSelection;
   final String? Function(T model) getSelection;
   final Set<String> choices;
   final double width;
+  final TextStyle? style;
 
   @override
   State<DropdownUi<T>> createState() => _DropdownUiState<T>();
@@ -32,7 +35,8 @@ class _DropdownUiState<T> extends State<DropdownUi<T>> {
             foregroundColor: Colors.black,
             backgroundColor: Colors.transparent,
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(4.0)),
+              borderRadius: BorderRadius.circular(4.0),
+            ),
           ),
           onPressed: () {
             if (controller.isOpen) {
@@ -43,12 +47,14 @@ class _DropdownUiState<T> extends State<DropdownUi<T>> {
           },
           child: Row(
             children: [
-              Watch((context) => Text(widget.getSelection(widget.model.value) ?? '')),
-              const Spacer(),
-              const Icon(
-                Icons.keyboard_arrow_down,
-                size: 18,
+              Watch(
+                (context) => Text(
+                  widget.getSelection(widget.model.value) ?? '',
+                  style: widget.style,
+                ),
               ),
+              const Spacer(),
+              const Icon(Icons.keyboard_arrow_down, size: 18),
             ],
           ),
         );
@@ -60,7 +66,8 @@ class _DropdownUiState<T> extends State<DropdownUi<T>> {
   List<MenuItemButton> getList() {
     var out = <MenuItemButton>[];
     for (final value in widget.choices) {
-      out.add(MenuItemButton(
+      out.add(
+        MenuItemButton(
           onPressed: () {
             widget.setSelection(value);
           },
@@ -71,14 +78,20 @@ class _DropdownUiState<T> extends State<DropdownUi<T>> {
             visualDensity: const VisualDensity(vertical: -4.0),
             padding: WidgetStateProperty.all(const EdgeInsets.all(0.0)),
           ),
-          child: Watch((_) => SizedBox(
+          child: Watch(
+            (_) => SizedBox(
               width: widget.width,
               child: PointerInterceptor(
-                  child: ListTile(
-                title: Text(value.toString()),
-                contentPadding: const EdgeInsets.only(left: 12),
-                dense: true,
-              ))))));
+                child: ListTile(
+                  title: Text(value.toString(), style: widget.style),
+                  contentPadding: const EdgeInsets.only(left: 12),
+                  dense: true,
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
     }
     return out;
   }
