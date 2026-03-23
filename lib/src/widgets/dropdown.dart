@@ -10,6 +10,7 @@ class DropdownUi<T> extends StatefulWidget {
     required this.setSelection,
     required this.getSelection,
     this.style,
+    this.padding,
     super.key,
   });
 
@@ -19,6 +20,7 @@ class DropdownUi<T> extends StatefulWidget {
   final Set<String> choices;
   final double width;
   final TextStyle? style;
+  final EdgeInsetsGeometry? padding;
 
   @override
   State<DropdownUi<T>> createState() => _DropdownUiState<T>();
@@ -31,9 +33,10 @@ class _DropdownUiState<T> extends State<DropdownUi<T>> {
       menuChildren: getList(),
       builder: (context, controller, child) {
         return TextButton(
-          style:  TextButton.styleFrom(
+          style: TextButton.styleFrom(
             foregroundColor: Colors.black,
             backgroundColor: Colors.transparent,
+            padding: widget.padding,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(4.0),
             ),
