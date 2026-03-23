@@ -9,13 +9,15 @@ class TermUi<T> extends StatefulWidget {
     super.key,
     required this.setTerm,
     required this.getTerm,
+    this.allowNull = false,
   });
 
   final Signal<T> model;
 
-  /// Set the term value inside the model
+  /// Set the term value inside the model.  Allow null to clear the field.
   final void Function(Term? value) setTerm;
   final Term? Function(T model) getTerm;
+  final bool allowNull;
 
   @override
   State<TermUi<T>> createState() => _TermUiState<T>();
@@ -34,24 +36,32 @@ class _TermUiState<T> extends State<TermUi<T>> {
     controller.text =
         widget.getTerm(widget.model.value)?.toString().replaceAll('-', ' - ') ??
         '';
+    validate(); // validate the initial value
     focusNode.addListener(() {
       if (!focusNode.hasFocus) {
         /// validate when you lose focus (Tab out of the field)
-        setState(() {
-          if (controller.text.isEmpty) {
-            widget.setTerm(null);
-            error = null;
-            return;
-          }
-          try {
-            widget.setTerm(Term.parse(controller.text, UTC));
-            error = null; // all good
-          } catch (e) {
-            error = e.toString();
-          }
-        });
+        setState(() => validate());
       }
     });
+  }
+
+  void validate() {
+    if (controller.text.isEmpty) {
+      if (widget.allowNull) {
+        widget.setTerm(null);
+        error = null;
+        return;
+      } else {
+        error = 'Field cannot be empty';
+        return;
+      }
+    }
+    try {
+      widget.setTerm(Term.parse(controller.text, UTC));
+      error = null; // all good
+    } catch (e) {
+      error = e.toString();
+    }
   }
 
   @override
@@ -75,14 +85,7 @@ class _TermUiState<T> extends State<TermUi<T>> {
 
       /// validate when Enter is pressed
       onEditingComplete: () {
-        setState(() {
-          try {
-            widget.setTerm(Term.parse(controller.text, UTC));
-            error = null; // all good
-          } catch (e) {
-            error = e.toString();
-          }
-        });
+        setState(() => validate());
       },
     );
   }

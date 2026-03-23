@@ -8,6 +8,7 @@ class DateUi<T> extends StatefulWidget {
     super.key,
     required this.setDate,
     required this.getDate,
+    this.allowNull = false,
   });
 
   final Signal<T> model;
@@ -15,6 +16,7 @@ class DateUi<T> extends StatefulWidget {
   /// Set the date value inside the model.  Allow null to clear the field.
   final void Function(Date? value) setDate;
   final Date? Function(T model) getDate;
+  final bool allowNull;
 
   @override
   State<DateUi<T>> createState() => _DateUiState<T>();
@@ -34,20 +36,7 @@ class _DateUiState<T> extends State<DateUi<T>> {
     focusNode.addListener(() {
       if (!focusNode.hasFocus) {
         /// validate when you lose focus (Tab out of the field)
-        setState(() {
-          if (controller.text.isEmpty) {
-            widget.setDate(null);
-            error = null;
-            return;
-          }
-          try {
-            widget.setDate(Date.parse(controller.text));
-            controller.text = widget.getDate(widget.model.value).toString();
-            error = null; // all good
-          } catch (e) {
-            error = e.toString();
-          }
-        });
+        setState(() => validate());
       }
     });
   }
@@ -57,6 +46,26 @@ class _DateUiState<T> extends State<DateUi<T>> {
     controller.dispose();
     focusNode.dispose();
     super.dispose();
+  }
+
+  void validate() {
+    if (controller.text.isEmpty) {
+      if (widget.allowNull) {
+        widget.setDate(null);
+        error = null;
+        return;
+      } else {
+        error = 'Field cannot be empty';
+        return;
+      }
+    }
+    try {
+      widget.setDate(Date.parse(controller.text));
+      controller.text = widget.getDate(widget.model.value).toString();
+      error = null; // all good
+    } catch (e) {
+      error = e.toString();
+    }
   }
 
   @override
@@ -74,15 +83,7 @@ class _DateUiState<T> extends State<DateUi<T>> {
 
       /// validate when Enter is pressed
       onEditingComplete: () {
-        setState(() {
-          try {
-            widget.setDate(Date.parse(controller.text));
-            controller.text = widget.getDate(widget.model.value).toString();
-            error = null; // all good
-          } catch (e) {
-            error = e.toString();
-          }
-        });
+        setState(() => validate());
       },
     );
   }

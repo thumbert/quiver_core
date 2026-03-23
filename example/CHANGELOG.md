@@ -3,7 +3,7 @@
 - Add specialized widgets based on TextField for a Date and Month input similar to 
   Term. 
 - Allow empty content for the TermUi, MonthUi, DayUi widgets to allow clearing of 
-  values.   
+  values.  Make that a feature under a boolean flag. 
 
 # 2026-03-14
 - Add autocomplete dropdown with multi select. 

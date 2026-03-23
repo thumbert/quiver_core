@@ -8,6 +8,7 @@ class MonthUi<T> extends StatefulWidget {
     super.key,
     required this.setMonth,
     required this.getMonth,
+    this.allowNull = false,
   });
 
   final Signal<T> model;
@@ -15,6 +16,7 @@ class MonthUi<T> extends StatefulWidget {
   /// Set the month value inside the model.  Allow null to clear the field.
   final void Function(Month? value) setMonth;
   final Month? Function(T model) getMonth;
+  final bool allowNull;
 
   @override
   State<MonthUi<T>> createState() => _MonthUiState<T>();
@@ -34,24 +36,29 @@ class _MonthUiState<T> extends State<MonthUi<T>> {
     focusNode.addListener(() {
       if (!focusNode.hasFocus) {
         /// validate when you lose focus (Tab out of the field)
-        setState(() {
-          if (controller.text.isEmpty) {
-            widget.setMonth(null);
-            error = null;
-            return;
-          }
-          try {
-            widget.setMonth(Month.parse(controller.text));
-            controller.text = widget
-                .getMonth(widget.model.value)!
-                .toIso8601String();
-            error = null; // all good
-          } catch (e) {
-            error = e.toString();
-          }
-        });
+        setState(() => validate());
       }
     });
+  }
+
+  void validate() {
+    if (controller.text.isEmpty) {
+      if (widget.allowNull) {
+        widget.setMonth(null);
+        error = null;
+        return;
+      } else {
+        error = 'Field cannot be empty';
+        return;
+      }
+    }
+    try {
+      widget.setMonth(Month.parse(controller.text));
+      controller.text = widget.getMonth(widget.model.value)!.toIso8601String();
+      error = null; // all good
+    } catch (e) {
+      error = e.toString();
+    }
   }
 
   @override
@@ -75,17 +82,7 @@ class _MonthUiState<T> extends State<MonthUi<T>> {
 
       /// validate when Enter is pressed
       onEditingComplete: () {
-        setState(() {
-          try {
-            widget.setMonth(Month.parse(controller.text));
-            controller.text = widget
-                .getMonth(widget.model.value)!
-                .toIso8601String();
-            error = null; // all good
-          } catch (e) {
-            error = e.toString();
-          }
-        });
+        setState(() => validate());
       },
     );
   }
