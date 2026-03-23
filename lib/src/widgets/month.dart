@@ -75,7 +75,7 @@ class _MonthUiState<T> extends State<MonthUi<T>> {
       style: const TextStyle(fontSize: 14),
       decoration: InputDecoration(
         isDense: true,
-        contentPadding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
+        contentPadding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
         errorText: error,
       ),
       controller: controller,

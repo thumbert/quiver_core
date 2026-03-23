@@ -1,4 +1,7 @@
 
+# 2026-03-23
+- Reduce some of the vertical padding on the Term widgets from 10px to 8px.
+
 # 2026-03-22
 - Add specialized widgets based on TextField for a Date and Month input similar to 
   Term. 
