@@ -112,7 +112,7 @@ class _AutocompleteUiState<T> extends State<AutocompleteUi<T>> {
                     elevation: 4.0,
                     child: ConstrainedBox(
                       constraints: BoxConstraints(
-                        maxHeight: 400,
+                        maxHeight: widget.height,
                         maxWidth: widget.width,
                       ),
                       child: ListView.builder(
@@ -185,10 +185,10 @@ class _AutocompleteField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      style: const TextStyle(fontSize: 13.0),
+      // style: const TextStyle(fontSize: 13.0),
       decoration: const InputDecoration(
         isDense: true,
-        contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 10),
+        contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
         // border: InputBorder.none,
         enabledBorder: InputBorder.none,
       ),

@@ -183,12 +183,12 @@ class _MultiSelectAutocompleteUiState<T>
         child: Watch((_) {
           final count = widget.getSelection(widget.model.value).length;
           return TextFormField(
-            style: const TextStyle(fontSize: 13.0),
+            // style: const TextStyle(fontSize: 13.0),
             decoration: InputDecoration(
               isDense: true,
               contentPadding: const EdgeInsets.symmetric(
-                vertical: 12,
-                horizontal: 10,
+                vertical: 8,
+                horizontal: 8,
               ),
               enabledBorder: InputBorder.none,
               hintText:
