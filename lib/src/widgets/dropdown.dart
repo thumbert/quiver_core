@@ -31,7 +31,7 @@ class _DropdownUiState<T> extends State<DropdownUi<T>> {
       menuChildren: getList(),
       builder: (context, controller, child) {
         return TextButton(
-          style: TextButton.styleFrom(
+          style:  TextButton.styleFrom(
             foregroundColor: Colors.black,
             backgroundColor: Colors.transparent,
             shape: RoundedRectangleBorder(
