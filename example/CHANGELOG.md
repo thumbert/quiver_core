@@ -1,4 +1,8 @@
 
+
+# 2026-04-16
+- Add a clearSelection function in AutocompleteUi to allow you to clear the selection. 
+
 # 2026-03-23
 - Reduce some of the vertical padding on the Term widgets from 10px to 8px.
 - Do the same for the dropdown widgets
