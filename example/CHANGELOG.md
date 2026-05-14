@@ -1,4 +1,6 @@
 
+# 2026-05-13
+- Add another multiselect dropdown example (multiple months). 
 
 # 2026-04-16
 - Add a clearSelection function in AutocompleteUi to allow you to clear the selection. 

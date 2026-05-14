@@ -12,6 +12,26 @@ final model = Model();
 final term = signal<Term?>(null, debugLabel: 'term');
 final month = signal<Month?>(Month.parse('Mar26'), debugLabel: 'month');
 final day = signal<Date?>(Date.parse('17Feb26'), debugLabel: 'day');
+final months = signal<List<String>>(<String>[
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+], debugLabel: 'months');
+final allMonths = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
+];
 
 class Model {
   Model() {
@@ -80,7 +100,6 @@ class Model {
   }
 }
 
-
 final tz = getLocation('America/Los_Angeles');
 
 final prices = futureSignal(
@@ -115,8 +134,6 @@ Future<List<(TZDateTime, num)>> getHourlyLmpCaiso({
       )
       .toList();
 }
-
-
 
 // final locationName = signal('TH_NP15_GEN-APND', debugLabel: 'locationName');
 // final multipleLocations = ListSignal<String>(

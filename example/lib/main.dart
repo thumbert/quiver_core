@@ -62,10 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     Row(
                       spacing: 24.0,
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Lmp(),
-                        TermsDemo(),
-                      ],
+                      children: [Lmp(), TermsDemo()],
                     ),
                     Text(
                       'Selected locations: ${Model.locations.value.join(', ')}',
@@ -82,9 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class TermsDemo extends StatelessWidget {
-  const TermsDemo({
-    super.key,
-  });
+  const TermsDemo({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -131,13 +126,10 @@ class TermsDemo extends StatelessWidget {
               ),
             ],
           ),
-    
+
           Row(
             children: [
-              SizedBox(
-                width: 100,
-                child: Text('As of date'),
-              ),
+              SizedBox(width: 100, child: Text('As of date')),
               Container(
                 width: 200,
                 decoration: BoxDecoration(
@@ -149,6 +141,28 @@ class TermsDemo extends StatelessWidget {
                   setDate: (value) => day.value = value,
                   getDate: (model) => day.value,
                   allowNull: true,
+                ),
+              ),
+            ],
+          ),
+
+          /// select multiple months
+          Row(
+            children: [
+              SizedBox(width: 120, child: Text('Pick months')),
+              Container(
+                width: 180,
+                decoration: BoxDecoration(
+                  color: Colors.blueGrey.shade50,
+                  borderRadius: BorderRadius.circular(4.0),
+                ),
+                child: MultiSelectAutocompleteUi(
+                  model: months,
+                  setSelection: (value) => months.value = [...value],
+                  getSelection: (model) => months.value,
+                  choices: allMonths.toSet(),
+                  itemName: 'month',
+                  width: 180,
                 ),
               ),
             ],
@@ -259,7 +273,6 @@ class LocationsRow extends StatelessWidget {
     );
   }
 }
-
 
 class LocationRow extends StatelessWidget {
   const LocationRow({super.key});
