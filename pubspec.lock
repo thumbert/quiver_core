@@ -5,10 +5,10 @@ packages:
     dependency: transitive
     description:
       name: async
-      sha256: "758e6d74e971c3e5aceb4110bfd6698efc7f501675bcfe0c775459a8140750eb"
+      sha256: e2eb0491ba5ddb6177742d2da23904574082139b07c1e33b8503b9f46f3e1a37
       url: "https://pub.dev"
     source: hosted
-    version: "2.13.0"
+    version: "2.13.1"
   boolean_selector:
     dependency: transitive
     description:
@@ -46,10 +46,10 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: ad3abaeb4d9eb81f1fc88afef81342ffa013668b
+      resolved-ref: "1057821be324f1ebd245396e1afd86615b7c70c6"
       url: "https://github.com/thumbert/date.git"
     source: git
-    version: "3.1.1"
+    version: "3.2.0"
   fake_async:
     dependency: transitive
     description:
@@ -141,10 +141,10 @@ packages:
     dependency: transitive
     description:
       name: matcher
-      sha256: "12956d0ad8390bbcc63ca2e1469c0619946ccb52809807067a7020d57e647aa6"
+      sha256: dc0b7dc7651697ea4ff3e69ef44b0407ea32c487a39fff6a4004fa585e901861
       url: "https://pub.dev"
     source: hosted
-    version: "0.12.18"
+    version: "0.12.19"
   material_color_utilities:
     dependency: transitive
     description:
@@ -221,26 +221,26 @@ packages:
     dependency: transitive
     description:
       name: preact_signals
-      sha256: ad45313c86b2228536a16d3dfc86da8263705d4acb4136c42907378de6910d8c
+      sha256: "0cd9262527732f1d9760e3fed1e407630e893c49e48229ff3f007daf357dbb1e"
       url: "https://pub.dev"
     source: hosted
-    version: "1.9.4"
+    version: "6.3.1"
   signals_core:
     dependency: transitive
     description:
       name: signals_core
-      sha256: ea427bd53619e69e6f6cf244177e3b72870e433065c807600fb496fd80611c9f
+      sha256: abed6049b557da5b4e9c41715fd67bcc1a032dcc1ec147a9f228c2acf34ee151
       url: "https://pub.dev"
     source: hosted
-    version: "6.2.1"
+    version: "6.3.1"
   signals_flutter:
     dependency: "direct main"
     description:
       name: signals_flutter
-      sha256: "7c83418f47e3538685217e583f0fbd17a29716fa1a9ce2247e2455786e8ea81a"
+      sha256: "018625c022925fd1b586ae9f4aec670cdc94ba4fe117ec73cd6a945359529113"
       url: "https://pub.dev"
     source: hosted
-    version: "6.3.0"
+    version: "6.3.1"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -290,10 +290,10 @@ packages:
     dependency: transitive
     description:
       name: test_api
-      sha256: "93167629bfc610f71560ab9312acdda4959de4df6fac7492c89ff0d3886f6636"
+      sha256: "8161c84903fd860b26bfdefb7963b3f0b68fee7adea0f59ef805ecca346f0c7a"
       url: "https://pub.dev"
     source: hosted
-    version: "0.7.9"
+    version: "0.7.10"
   timezone:
     dependency: "direct main"
     description:
@@ -322,10 +322,10 @@ packages:
     dependency: transitive
     description:
       name: vm_service
-      sha256: "45caa6c5917fa127b5dbcfbd1fa60b14e583afdc08bfc96dda38886ca252eb60"
+      sha256: "0016aef94fc66495ac78af5859181e3f3bf2026bd8eecc72b9565601e19ab360"
       url: "https://pub.dev"
     source: hosted
-    version: "15.0.2"
+    version: "15.2.0"
   web:
     dependency: transitive
     description:

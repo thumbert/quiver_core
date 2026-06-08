@@ -29,10 +29,10 @@ packages:
     dependency: transitive
     description:
       name: async
-      sha256: "758e6d74e971c3e5aceb4110bfd6698efc7f501675bcfe0c775459a8140750eb"
+      sha256: e2eb0491ba5ddb6177742d2da23904574082139b07c1e33b8503b9f46f3e1a37
       url: "https://pub.dev"
     source: hosted
-    version: "2.13.0"
+    version: "2.13.1"
   basic_utils:
     dependency: transitive
     description:
@@ -144,10 +144,10 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: ad3abaeb4d9eb81f1fc88afef81342ffa013668b
+      resolved-ref: "1057821be324f1ebd245396e1afd86615b7c70c6"
       url: "https://github.com/thumbert/date.git"
     source: git
-    version: "3.1.1"
+    version: "3.2.0"
   decimal:
     dependency: transitive
     description:
@@ -177,7 +177,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: fb44e038304178e2f93b354e3107cc4c32e0fb2f
+      resolved-ref: "6b44747c3dbf86acb35e92c30d545f94e0406f1a"
       url: "https://github.com/thumbert/elec.git"
     source: git
     version: "2.2.0"
@@ -186,7 +186,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "243d15c6939d417f6328bc6154d7501ebce0ec3c"
+      resolved-ref: "6fcc856388834988153e626d2548e2da26ec8107"
       url: "https://github.com/thumbert/elec-server.git"
     source: git
     version: "2.0.2"
@@ -297,10 +297,10 @@ packages:
     dependency: transitive
     description:
       name: json_annotation
-      sha256: cb09e7dac6210041fad964ed7fbee004f14258b4eca4040f72d1234062ace4c8
+      sha256: "2a743920d81b7910627f68ee2c9ac1fc0bfee32b9fc3403587d7c6791ca12f80"
       url: "https://pub.dev"
     source: hosted
-    version: "4.11.0"
+    version: "4.12.0"
   leak_tracker:
     dependency: transitive
     description:
@@ -497,10 +497,10 @@ packages:
     dependency: transitive
     description:
       name: preact_signals
-      sha256: ad45313c86b2228536a16d3dfc86da8263705d4acb4136c42907378de6910d8c
+      sha256: "0cd9262527732f1d9760e3fed1e407630e893c49e48229ff3f007daf357dbb1e"
       url: "https://pub.dev"
     source: hosted
-    version: "1.9.4"
+    version: "6.3.1"
   puppeteer:
     dependency: transitive
     description:
@@ -537,10 +537,10 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "8e925127712dd8463d5f7febe8991e5b44d2e058"
+      resolved-ref: "7d43574c1f56778cb37c4bd608a1d3aacc704e62"
       url: "https://github.com/thumbert/reduct.git"
     source: git
-    version: "0.3.1"
+    version: "0.3.5"
   sasl_scram:
     dependency: transitive
     description:
@@ -577,18 +577,18 @@ packages:
     dependency: transitive
     description:
       name: signals_core
-      sha256: ea427bd53619e69e6f6cf244177e3b72870e433065c807600fb496fd80611c9f
+      sha256: abed6049b557da5b4e9c41715fd67bcc1a032dcc1ec147a9f228c2acf34ee151
       url: "https://pub.dev"
     source: hosted
-    version: "6.2.1"
+    version: "6.3.1"
   signals_flutter:
     dependency: "direct main"
     description:
       name: signals_flutter
-      sha256: "7c83418f47e3538685217e583f0fbd17a29716fa1a9ce2247e2455786e8ea81a"
+      sha256: "018625c022925fd1b586ae9f4aec670cdc94ba4fe117ec73cd6a945359529113"
       url: "https://pub.dev"
     source: hosted
-    version: "6.3.0"
+    version: "6.3.1"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -728,10 +728,10 @@ packages:
     dependency: transitive
     description:
       name: vm_service
-      sha256: "45caa6c5917fa127b5dbcfbd1fa60b14e583afdc08bfc96dda38886ca252eb60"
+      sha256: "0016aef94fc66495ac78af5859181e3f3bf2026bd8eecc72b9565601e19ab360"
       url: "https://pub.dev"
     source: hosted
-    version: "15.0.2"
+    version: "15.2.0"
   vy_string_utils:
     dependency: transitive
     description:

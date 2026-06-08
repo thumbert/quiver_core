@@ -20,8 +20,9 @@ class MultiSelectAutocompleteUi<T> extends StatefulWidget {
     required this.choices,
     required this.width,
     this.height = 500.0,
-    this.itemName = 'item',
+    // this.itemName = 'item',
     this.style,
+    required this.hintTextBuilder,
     super.key,
   });
 
@@ -30,12 +31,11 @@ class MultiSelectAutocompleteUi<T> extends StatefulWidget {
   final void Function(List<String> value) setSelection;
   final List<String> Function(T model) getSelection;
 
+  // what is displayed in the text field
+  final String Function() hintTextBuilder;
+
   /// All available choices to pick from.
   final Set<String> choices;
-
-  /// The reactive list of currently selected items. Updated in place as the
-  /// user makes or removes selections.
-  // final ListSignal<String> selections;
 
   /// Width of the text field and the dropdown overlay.
   final double width;
@@ -44,7 +44,7 @@ class MultiSelectAutocompleteUi<T> extends StatefulWidget {
   final double height;
 
   /// Name of the item type, used in the text field hint (e.g. "3 fruits selected").
-  final String itemName;
+  // final String itemName;
 
   final TextStyle? style;
 
@@ -184,7 +184,6 @@ class _MultiSelectAutocompleteUiState<T>
       child: CompositedTransformTarget(
         link: _layerLink,
         child: Watch((_) {
-          final count = widget.getSelection(widget.model.value).length;
           return TextFormField(
             style: widget.style,
             decoration: InputDecoration(
@@ -194,9 +193,8 @@ class _MultiSelectAutocompleteUiState<T>
                 horizontal: 8,
               ),
               enabledBorder: InputBorder.none,
-              hintText:
-                  '$count ${widget.itemName}${count == 1 ? '' : 's'} selected',
-              hintStyle: const TextStyle(fontSize: 13, color: Colors.black87),
+              hintText: widget.hintTextBuilder(),
+              hintStyle: const TextStyle(fontSize: 14, color: Colors.black87),
             ),
             controller: _controller,
             focusNode: _focusNode,
@@ -250,7 +248,7 @@ class _MultiSelectOverlayList<T> extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 4),
-            Expanded(child: Text(item, style: const TextStyle(fontSize: 13))),
+            Expanded(child: Text(item, style: const TextStyle(fontSize: 14))),
           ],
         ),
       ),

@@ -1,4 +1,7 @@
 
+# 2026-06-07
+- Improve multiselect dropdown with custom hintTextBuilder function. 
+
 # 2026-05-13
 - Add another multiselect dropdown example (multiple months). 
 

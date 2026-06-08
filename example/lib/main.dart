@@ -161,7 +161,12 @@ class TermsDemo extends StatelessWidget {
                   setSelection: (value) => months.value = [...value],
                   getSelection: (model) => months.value,
                   choices: allMonths.toSet(),
-                  itemName: 'month',
+                  hintTextBuilder: () {
+                    final count = months.value.length;
+                    if (count == 0) return '(None)';
+                    if (count == 12) return '(All)';
+                    return '$count month${count == 1 ? '' : 's'} selected';
+                  },
                   width: 180,
                 ),
               ),
@@ -257,7 +262,8 @@ class LocationsRow extends StatelessWidget {
                 setSelection: (value) => Model.locations.value = [...value],
                 getSelection: (model) => Model.locations.value,
                 choices: Model.locationCache[Model.region.value]?.toSet() ?? {},
-                itemName: 'location',
+                hintTextBuilder: () =>
+                    '${Model.locations.value.length} location${Model.locations.value.length == 1 ? '' : 's'} selected',
                 width: 400,
               ),
               AsyncError<List<String>>() => Text(

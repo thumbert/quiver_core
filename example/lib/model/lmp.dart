@@ -124,10 +124,8 @@ Future<List<(TZDateTime, num)>> getHourlyLmpCaiso({
       '${MyApp.rustServer}/caiso/prices/da/hourly/'
       'start/${term.startDate.toString()}/end/${term.endDate.toString()}'
       '?node_ids=$locationName&components=lmp';
-  print(url);
   var response = await http.get(Uri.parse(url));
   var data = json.decode(response.body) as List;
-  print('Data length: ${data.length}');
   return data
       .map<(TZDateTime, num)>(
         (e) => (TZDateTime.parse(tz, e['hour_beginning']), e['price']),
