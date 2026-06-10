@@ -303,7 +303,7 @@ class LocationRow extends StatelessWidget {
                 clearSelection: () => Model.location.value = null,
                 choices: Model.locationCache[Model.region.value]?.toSet() ?? {},
                 width: 400,
-                style: const TextStyle(fontSize: 12),
+                style: const TextStyle(fontSize: 14),
               ),
               AsyncError<List<String>>() => Text(
                 'Error loading locations for ${Model.region.value}',
