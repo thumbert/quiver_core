@@ -51,8 +51,8 @@ class _DropdownUiState<T> extends State<DropdownUi<T>> {
           },
           child: Row(
             children: [
-              Watch(
-                (context) => Text(
+              SignalBuilder(
+                builder: (context) => Text(
                   widget.getSelection(widget.model.value) ?? '',
                   style: widget.style,
                 ),
@@ -82,8 +82,8 @@ class _DropdownUiState<T> extends State<DropdownUi<T>> {
             visualDensity: const VisualDensity(vertical: -4.0),
             padding: WidgetStateProperty.all(const EdgeInsets.all(0.0)),
           ),
-          child: Watch(
-            (_) => SizedBox(
+          child: SignalBuilder(
+            builder: (_) => SizedBox(
               width: widget.width,
               child: PointerInterceptor(
                 child: ListTile(

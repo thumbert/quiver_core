@@ -1,5 +1,4 @@
 import 'package:flutter/painting.dart';
-import 'package:flutter/gestures.dart';
 import 'package:graphic/graphic.dart';
 
 class Defaults {
@@ -50,15 +49,14 @@ EventUpdater<List<double>> _getRangeUpdate(
   bool isHorizontal,
   bool focusMouseScale,
 ) => (List<double> init, List<double> pre, Event event) {
-  print('init: $init, pre: $pre, event: $event');
   if (event is GestureEvent) {
     final gesture = event.gesture;
 
     if (gesture.type == GestureType.scaleEnd) {
-      print('gesture type: ${gesture.type}, details: ${gesture.details}');
-      print(
-        'localMoveStart: ${gesture.localMoveStart}, localPosition: ${gesture.localPosition}',
-      );
+      // print('gesture type: ${gesture.type}, details: ${gesture.details}');
+      // print(
+      //   'localMoveStart: ${gesture.localMoveStart}, localPosition: ${gesture.localPosition}',
+      // );
       // final detail = gesture.details as ScaleEndDetails;
       // return [0.2, 0.4];
       return [0.0, 1.0];

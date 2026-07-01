@@ -183,23 +183,25 @@ class _MultiSelectAutocompleteUiState<T>
       onTapOutside: (_) => _removeOverlay(),
       child: CompositedTransformTarget(
         link: _layerLink,
-        child: Watch((_) {
-          return TextFormField(
-            style: widget.style,
-            decoration: InputDecoration(
-              isDense: true,
-              contentPadding: const EdgeInsets.symmetric(
-                vertical: 8,
-                horizontal: 8,
+        child: SignalBuilder(
+          builder: (_) {
+            return TextFormField(
+              style: widget.style,
+              decoration: InputDecoration(
+                isDense: true,
+                contentPadding: const EdgeInsets.symmetric(
+                  vertical: 8,
+                  horizontal: 8,
+                ),
+                enabledBorder: InputBorder.none,
+                hintText: widget.hintTextBuilder(),
+                hintStyle: const TextStyle(fontSize: 14, color: Colors.black87),
               ),
-              enabledBorder: InputBorder.none,
-              hintText: widget.hintTextBuilder(),
-              hintStyle: const TextStyle(fontSize: 14, color: Colors.black87),
-            ),
-            controller: _controller,
-            focusNode: _focusNode,
-          );
-        }),
+              controller: _controller,
+              focusNode: _focusNode,
+            );
+          },
+        ),
       ),
     );
   }
@@ -257,74 +259,76 @@ class _MultiSelectOverlayList<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Watch((_) {
-      final query = querySignal.value.toLowerCase();
-      final selectedList = getSelection(model.value);
-      final selected = selectedList.toSet();
-      final unselected = choices
-          .where(
-            (e) =>
-                !selected.contains(e) &&
-                (query.isEmpty || e.toLowerCase().contains(query)),
-          )
-          .toList();
-      if (query.isNotEmpty) {
-        unselected.sort((a, b) => a.toLowerCase().compareTo(b.toLowerCase()));
-      }
+    return SignalBuilder(
+      builder: (_) {
+        final query = querySignal.value.toLowerCase();
+        final selectedList = getSelection(model.value);
+        final selected = selectedList.toSet();
+        final unselected = choices
+            .where(
+              (e) =>
+                  !selected.contains(e) &&
+                  (query.isEmpty || e.toLowerCase().contains(query)),
+            )
+            .toList();
+        if (query.isNotEmpty) {
+          unselected.sort((a, b) => a.toLowerCase().compareTo(b.toLowerCase()));
+        }
 
-      return CustomScrollView(
-        slivers: [
-          // Action bar: "Select all" on the left, "Clear all" on the right.
-          // Always rendered so the layout doesn't shift as items are selected.
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  if (unselected.isNotEmpty)
-                    InkWell(
-                      onTap: onSelectAll,
-                      child: const Text(
-                        'Select all',
-                        style: TextStyle(color: Colors.blue, fontSize: 12),
-                      ),
-                    )
-                  else
-                    const SizedBox.shrink(),
-                  if (selected.isNotEmpty)
-                    InkWell(
-                      onTap: onClearAll,
-                      child: const Text(
-                        'Clear all',
-                        style: TextStyle(color: Colors.blue, fontSize: 12),
-                      ),
-                    )
-                  else
-                    const SizedBox.shrink(),
-                ],
+        return CustomScrollView(
+          slivers: [
+            // Action bar: "Select all" on the left, "Clear all" on the right.
+            // Always rendered so the layout doesn't shift as items are selected.
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    if (unselected.isNotEmpty)
+                      InkWell(
+                        onTap: onSelectAll,
+                        child: const Text(
+                          'Select all',
+                          style: TextStyle(color: Colors.blue, fontSize: 12),
+                        ),
+                      )
+                    else
+                      const SizedBox.shrink(),
+                    if (selected.isNotEmpty)
+                      InkWell(
+                        onTap: onClearAll,
+                        child: const Text(
+                          'Clear all',
+                          style: TextStyle(color: Colors.blue, fontSize: 12),
+                        ),
+                      )
+                    else
+                      const SizedBox.shrink(),
+                  ],
+                ),
               ),
             ),
-          ),
-          // Selected items + divider (only when something is selected).
-          if (selected.isNotEmpty)
-            SliverList(
-              delegate: SliverChildListDelegate([
-                ...selectedList.map((item) => _buildItem(item, true)),
-                const Divider(height: 1),
-              ]),
+            // Selected items + divider (only when something is selected).
+            if (selected.isNotEmpty)
+              SliverList(
+                delegate: SliverChildListDelegate([
+                  ...selectedList.map((item) => _buildItem(item, true)),
+                  const Divider(height: 1),
+                ]),
+              ),
+            // Unselected choices: SliverFixedExtentList gives O(1) scroll
+            // position calculation — no layout work for off-screen items.
+            SliverFixedExtentList(
+              itemExtent: _itemHeight,
+              delegate: SliverChildBuilderDelegate(
+                (ctx, i) => _buildItem(unselected[i], false),
+                childCount: unselected.length,
+              ),
             ),
-          // Unselected choices: SliverFixedExtentList gives O(1) scroll
-          // position calculation — no layout work for off-screen items.
-          SliverFixedExtentList(
-            itemExtent: _itemHeight,
-            delegate: SliverChildBuilderDelegate(
-              (ctx, i) => _buildItem(unselected[i], false),
-              childCount: unselected.length,
-            ),
-          ),
-        ],
-      );
-    });
+          ],
+        );
+      },
+    );
   }
 }

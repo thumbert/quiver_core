@@ -1,4 +1,7 @@
 
+# 2026-07-01 (0.3.0)
+- Migrate to signals 7.1.0
+
 # 2026-06-07
 - Improve multiselect dropdown with custom hintTextBuilder function. 
 

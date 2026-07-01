@@ -2,7 +2,7 @@ name: quiver_core
 description: An opinionated set of widgets using signals for state management.
 publish_to: 'none' 
 
-version: 0.2.0
+version: 0.3.0
 
 environment:
   sdk: ^3.10.0
@@ -14,7 +14,7 @@ dependencies:
   date:
     git: https://github.com/thumbert/date.git
   pointer_interceptor: ^0.10.1+2
-  signals_flutter: ^6.3.0
+  signals_flutter: ^7.1.0
   timezone: '>=0.9.2 <1.0.0'
 
 

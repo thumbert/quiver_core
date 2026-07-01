@@ -21,7 +21,7 @@ dependencies:
   http: ^1.6.0
   quiver_core:
     path: ..
-  signals_flutter: ^6.2.0
+  signals_flutter: ^7.1.0
   timezone: ^0.11.0
 
 dev_dependencies:

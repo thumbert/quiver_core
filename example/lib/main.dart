@@ -49,8 +49,8 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
 
       body: Center(
-        child: Watch(
-          (context) => Column(
+        child: SignalBuilder(
+          builder: (context) => Column(
             mainAxisAlignment: .start,
             children: [
               Container(
@@ -67,6 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     Text(
                       'Selected locations: ${Model.locations.value.join(', ')}',
                     ),
+                    Text('Selected location: ${Model.location.value}'),
                   ],
                 ),
               ),
@@ -246,8 +247,8 @@ class LocationsRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Watch(
-      (_) => Row(
+    return SignalBuilder(
+      builder: (_) => Row(
         children: [
           SizedBox(width: 100, child: Text('Locations')),
           Container(
@@ -285,8 +286,8 @@ class LocationRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Watch(
-      (_) => Row(
+    return SignalBuilder(
+      builder: (_) => Row(
         children: [
           SizedBox(width: 100, child: Text('Location')),
           Container(

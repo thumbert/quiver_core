@@ -90,8 +90,8 @@ class _AutocompleteUiState<T> extends State<AutocompleteUi<T>> {
   @override
   Widget build(BuildContext context) {
     controller.text = widget.getSelection(widget.model.value) ?? '';
-    return Watch(
-      (_) => RawAutocomplete(
+    return SignalBuilder(
+      builder: (_) => RawAutocomplete(
         focusNode: focusNode,
         textEditingController: controller,
         fieldViewBuilder:
@@ -233,4 +233,3 @@ class _AutocompleteField extends StatelessWidget {
     );
   }
 }
-
